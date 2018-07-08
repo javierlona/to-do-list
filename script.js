@@ -2,24 +2,22 @@ var form = document.querySelector('#addForm');
 
 var itemList = document.querySelector('.list-group');
 
-form.addEventListener('submit', addItem);
+form.addEventListener('submit', add_item);
 
-function addItem(event){
+itemList.addEventListener('click', remove_item);
+
+function add_item(event){
   event.preventDefault();
 
   // Get input value
   var newItem = document.querySelector('#item').value;
-
   // Create new li element
   var li = document.createElement('li');
-
   // Create delete button element
   var deleteBTN = document.createElement('button');
 
-  //  Add class
+  //  Add classes
   li.className = 'list-group-item';
-
-  // Add class
   deleteBTN.className = 'btn btn-danger btn-sm float-right delete';
 
   // Add to DOM Tree from outside in
