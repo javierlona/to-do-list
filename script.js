@@ -1,10 +1,13 @@
+// Constant variables
 const FORM = document.querySelector('#addForm');
-
 const ITEMLIST = document.querySelector('.list-group');
+const FILTER = document.querySelector('#filter');
 
+// Event listeners
 FORM.addEventListener('submit', add_item);
-
 ITEMLIST.addEventListener('click', remove_item);
+FILTER.addEventListener('keyup', filter_items);
+
 
 function add_item(event){
   event.preventDefault();
@@ -25,16 +28,19 @@ function add_item(event){
   li.append(newItem);
   deleteBTN.append("X");
   li.append(deleteBTN);
-
 }
 
 function remove_item(event) {
   if(event.target.classList.contains('delete')){
-    console.log("Yikes");
     if(confirm("Are you sure?")){
       var delLiItem = event.target.parentElement;
-      console.log(delLiItem);
       ITEMLIST.removeChild(delLiItem);
     }
   }
+}
+
+function filter_items(event) {
+  console.log("Here");
+  let text = event.target.value.toLowerCase();
+  console.log(text);
 }
