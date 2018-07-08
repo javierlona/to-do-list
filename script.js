@@ -8,7 +8,6 @@ FORM.addEventListener('submit', add_task);
 TASKLIST.addEventListener('click', remove_task);
 FILTER.addEventListener('keyup', filter_tasks);
 
-
 function add_task(event){
   event.preventDefault();
 
