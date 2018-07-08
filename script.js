@@ -1,10 +1,10 @@
-var form = document.querySelector('#addForm');
+const FORM = document.querySelector('#addForm');
 
-var itemList = document.querySelector('.list-group');
+const ITEMLIST = document.querySelector('.list-group');
 
-form.addEventListener('submit', add_item);
+FORM.addEventListener('submit', add_item);
 
-itemList.addEventListener('click', remove_item);
+ITEMLIST.addEventListener('click', remove_item);
 
 function add_item(event){
   event.preventDefault();
@@ -21,11 +21,20 @@ function add_item(event){
   deleteBTN.className = 'btn btn-danger btn-sm float-right delete';
 
   // Add to DOM Tree from outside in
-  itemList.append(li);
+  ITEMLIST.append(li);
   li.append(newItem);
   deleteBTN.append("X");
   li.append(deleteBTN);
 
-  console.log("deleteBTN.innerHTML");
+}
 
+function remove_item(event) {
+  if(event.target.classList.contains('delete')){
+    console.log("Yikes");
+    if(confirm("Are you sure?")){
+      var delLiItem = event.target.parentElement;
+      console.log(delLiItem);
+      ITEMLIST.removeChild(delLiItem);
+    }
+  }
 }
