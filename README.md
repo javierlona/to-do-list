@@ -3,7 +3,7 @@ This app was built based of [Brad Traversy's project](https://www.youtube.com/wa
 
 The app is a simple to do list. Users can add, remove, and filter tasks. It was built using Vanilla JS and Bootstrap 4.
 
-![Demo Image](to-do-list-demo.jpg)
+![Demo Image](imgs/to-do-list-demo.jpg)
 
 ## Installation
-Clone/Download the repo then launch the index.html in a modern web browser. 
+Clone/Download the repo then launch the index.html in a modern web browser.
