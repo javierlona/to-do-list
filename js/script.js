@@ -27,9 +27,33 @@ function add_task(event){
   liElement.append(newTask);
   deleteBTN.append("X");
   liElement.append(deleteBTN);
+
+  // Call function add task to local storage
+  store_in_local_storage(newTask);
   
   // Clear input filed(s) on form submit 
   FORM.reset();
+}
+
+function store_in_local_storage(task){
+  let tasks;
+
+  // Check if tasks are already stored
+  if(localStorage.getItem('tasks') === null){
+    tasks = [];
+  }
+  else{
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+  }
+
+  // Add task to local storage
+  tasks.push(task);
+
+  /* You can only store string values in localStorage. 
+     You'll need to serialize the array object and 
+     then store it in localStorage.
+  */
+  localStorage.setItem('tasks', JSON.stringify(tasks))
 }
 
 function remove_task(event) {
