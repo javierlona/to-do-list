@@ -27,6 +27,9 @@ function add_task(event){
   liElement.append(newTask);
   deleteBTN.append("X");
   liElement.append(deleteBTN);
+  
+  // Clear input filed(s) on form submit 
+  FORM.reset();
 }
 
 function remove_task(event) {
@@ -46,7 +49,7 @@ function filter_tasks(event) {
 
   // Create an array of the tasks and traverse them
   let tasksArray = Array.from(tasks);
-  for (var i = 0; i < tasksArray.length; i++) {
+  for (let i = 0; i < tasksArray.length; i++) {
     let taskName = tasksArray[i].firstChild.textContent;
     // Check if it's a match
     if(taskName.toLowerCase().indexOf(text) != -1){
