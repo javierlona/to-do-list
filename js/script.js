@@ -7,6 +7,42 @@ const FILTER = document.querySelector('#filter');
 FORM.addEventListener('submit', add_task);
 TASKLIST.addEventListener('click', remove_task);
 FILTER.addEventListener('keyup', filter_tasks);
+// Called right after DOM is loaded
+document.addEventListener('DOMContentLoaded', get_tasks);
+
+function get_tasks() {
+  let tasks;
+
+  // Check if tasks are already stored
+  if(localStorage.getItem('tasks') === null){
+    tasks = [];
+  }
+  else{
+    // Set tasks with what's already there
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+  }
+  // Loop to create the DOM elements to display
+  tasks.forEach(function(task) {
+    // Get input value
+    let newTask = document.createTextNode(task);
+    // Create new li element
+    let liElement = document.createElement('li');
+    // Create delete button element
+    let deleteBTN = document.createElement('button');
+
+    //  Add classes
+    liElement.className = 'list-group-item';
+    deleteBTN.className = 'btn btn-danger btn-sm float-right delete';
+
+    // Add to DOM Tree from outside in
+    TASKLIST.append(liElement);
+    liElement.append(newTask);
+    deleteBTN.append("X");
+    liElement.append(deleteBTN);
+
+  });
+
+}
 
 function add_task(event){
   event.preventDefault();
@@ -43,6 +79,7 @@ function store_in_local_storage(task){
     tasks = [];
   }
   else{
+    // Add task to array
     tasks = JSON.parse(localStorage.getItem('tasks'));
   }
 
@@ -61,8 +98,36 @@ function remove_task(event) {
     if(confirm("Are you sure?")){
       let delLiTask = event.target.parentElement;
       TASKLIST.removeChild(delLiTask);
+      // Remove from Local Storage
+      // localStorage.clear();
+      remove_task_from_local_storage(event.target.parentElement);
     }
   }
+}
+
+function remove_task_from_local_storage(taskItem){
+  console.log(taskItem);
+  stringItem = JSON.parse(taskItem);
+  console.log(stringItem);
+  localStorage.removeItem('taskItem');
+  let tasks;
+  // Check if tasks are already stored
+  if(localStorage.getItem('tasks') === null){
+    tasks = [];
+  }
+  else{
+    // Add task to array
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+  }
+
+  tasks.forEach(function(task, index){
+    if(taskItem.textContent === task){
+      tasks.splice(index, 1);
+    }
+  });
+
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+
 }
 
 function filter_tasks(event) {
