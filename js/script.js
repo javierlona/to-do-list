@@ -33,11 +33,11 @@ function get_tasks() {
     //  Add classes
     liElement.className = 'list-group-item';
     deleteBTN.className = 'btn btn-danger btn-sm float-right delete';
+    deleteBTN.innerHTML = '<i class="fas fa-trash-alt"></i>';
 
     // Add to DOM Tree from outside in
     TASKLIST.append(liElement);
     liElement.append(newTask);
-    deleteBTN.append("X");
     liElement.append(deleteBTN);
 
   });
@@ -57,11 +57,11 @@ function add_task(event){
   //  Add classes
   liElement.className = 'list-group-item';
   deleteBTN.className = 'btn btn-danger btn-sm float-right delete';
+  deleteBTN.innerHTML = '<i class="fas fa-trash-alt"></i>';
 
   // Add to DOM Tree from outside in
   TASKLIST.append(liElement);
   liElement.append(newTask);
-  deleteBTN.append("X");
   liElement.append(deleteBTN);
 
   // Call function add task to local storage
@@ -98,18 +98,17 @@ function remove_task(event) {
     if(confirm("Are you sure?")){
       let delLiTask = event.target.parentElement;
       TASKLIST.removeChild(delLiTask);
+
       // Remove from Local Storage
       // localStorage.clear();
-      remove_task_from_local_storage(event.target.parentElement);
+      remove_task_from_local_storage(delLiTask);
     }
   }
 }
 
 function remove_task_from_local_storage(taskItem){
   console.log(taskItem);
-  stringItem = JSON.parse(taskItem);
-  console.log(stringItem);
-  localStorage.removeItem('taskItem');
+  // localStorage.removeItem('tasks');
   let tasks;
   // Check if tasks are already stored
   if(localStorage.getItem('tasks') === null){
@@ -118,12 +117,17 @@ function remove_task_from_local_storage(taskItem){
   else{
     // Add task to array
     tasks = JSON.parse(localStorage.getItem('tasks'));
+    console.log("else ");
   }
 
   tasks.forEach(function(task, index){
+    console.log("forEach task " + task);
+    console.log("if criteria " + taskItem.innerText);
     if(taskItem.textContent === task){
+      console.log("meet criteria " + taskItem);
       tasks.splice(index, 1);
     }
+    console.log("outside loop " + tasks);
   });
 
   localStorage.setItem('tasks', JSON.stringify(tasks));
