@@ -7,12 +7,10 @@ const FILTER = document.querySelector('#filter');
 FORM.addEventListener('submit', add_task);
 TASKLIST.addEventListener('click', remove_task);
 FILTER.addEventListener('keyup', filter_tasks);
-// Called right after DOM is loaded
-document.addEventListener('DOMContentLoaded', get_tasks);
+document.addEventListener('DOMContentLoaded', get_tasks); // Called right after DOM is loaded
 
-function check_if_tasks_exist(){
+function get_existing_tasks(){
   let tasks;
-
   // Check if tasks are already stored
   if(localStorage.getItem('tasks') === null){
     tasks = [];
@@ -25,7 +23,7 @@ function check_if_tasks_exist(){
 }
 
 function get_tasks() {
-  tasks = check_if_tasks_exist();
+  tasks = get_existing_tasks();
   // Loop to create the DOM elements to display
   tasks.forEach(function(task) {
     // Get input value
@@ -46,7 +44,6 @@ function get_tasks() {
     liElement.append(deleteBTN);
 
   });
-
 }
 
 function add_task(event){
@@ -77,11 +74,9 @@ function add_task(event){
 }
 
 function store_in_local_storage(task){
-  tasks = check_if_tasks_exist();
-
-  // Add task to local storage
+  tasks = get_existing_tasks();
+  // Add task to tasks array
   tasks.push(task);
-
   /* You can only store string values in localStorage. 
      You'll need to serialize the array object and 
      then store it in localStorage.
@@ -94,29 +89,24 @@ function remove_task(event) {
     if(confirm("Are you sure?")){
       let delLiTask = event.target.parentElement;
       TASKLIST.removeChild(delLiTask);
-      console.log("remove_task " + delLiTask);
-
       // Remove from Local Storage
       remove_task_from_local_storage(delLiTask);
     }
   }
 }
 
-function remove_task_from_local_storage(taskItem){
-  tasks = check_if_tasks_exist();
-
+function remove_task_from_local_storage(delLiTask){
+  tasks = get_existing_tasks();
+  // Go through each task in localStorage
   tasks.forEach(function(task, index){
-    console.log("forEach task " + task);
-    console.log("if criteria " + taskItem.innerText);
-    if(taskItem.textContent === task){
-      console.log("meet criteria " + taskItem);
+    // Determine if selected task matches one in the array
+    if(delLiTask.textContent === task){
+      // Remove selected task from the tasks array
       tasks.splice(index, 1);
     }
-    console.log("outside loop " + tasks);
   });
-
+  // Add the remaining tasks to localStorage
   localStorage.setItem('tasks', JSON.stringify(tasks));
-
 }
 
 function filter_tasks(event) {
@@ -124,16 +114,17 @@ function filter_tasks(event) {
   let text = event.target.value.toLowerCase();
   // Select all the li tasks
   let tasks = TASKLIST.querySelectorAll('li');
-
   // Create an array of the tasks and traverse them
   let tasksArray = Array.from(tasks);
   for (let i = 0; i < tasksArray.length; i++) {
     let taskName = tasksArray[i].firstChild.textContent;
     // Check if it's a match
     if(taskName.toLowerCase().indexOf(text) != -1){
+      // Display task
       tasksArray[i].style.display = 'block';
     }
     else{
+      // Don't display task
       tasksArray[i].style.display = 'none';
     }
   }
