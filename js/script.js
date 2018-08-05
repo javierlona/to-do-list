@@ -10,7 +10,7 @@ FILTER.addEventListener('keyup', filter_tasks);
 // Called right after DOM is loaded
 document.addEventListener('DOMContentLoaded', get_tasks);
 
-function get_tasks() {
+function check_if_tasks_exist(){
   let tasks;
 
   // Check if tasks are already stored
@@ -21,6 +21,11 @@ function get_tasks() {
     // Set tasks with what's already there
     tasks = JSON.parse(localStorage.getItem('tasks'));
   }
+  return tasks;
+}
+
+function get_tasks() {
+  tasks = check_if_tasks_exist();
   // Loop to create the DOM elements to display
   tasks.forEach(function(task) {
     // Get input value
@@ -32,7 +37,7 @@ function get_tasks() {
 
     //  Add classes
     liElement.className = 'list-group-item';
-    deleteBTN.className = 'btn btn-danger btn-sm float-right delete';
+    deleteBTN.className = 'btn btn-danger btn-lg float-right delete';
     deleteBTN.innerHTML = '<i class="fas fa-trash-alt"></i>';
 
     // Add to DOM Tree from outside in
@@ -56,7 +61,7 @@ function add_task(event){
 
   //  Add classes
   liElement.className = 'list-group-item';
-  deleteBTN.className = 'btn btn-danger btn-sm float-right delete';
+  deleteBTN.className = 'btn btn-danger btn-lg float-right delete';
   deleteBTN.innerHTML = '<i class="fas fa-trash-alt"></i>';
 
   // Add to DOM Tree from outside in
@@ -72,16 +77,7 @@ function add_task(event){
 }
 
 function store_in_local_storage(task){
-  let tasks;
-
-  // Check if tasks are already stored
-  if(localStorage.getItem('tasks') === null){
-    tasks = [];
-  }
-  else{
-    // Add task to array
-    tasks = JSON.parse(localStorage.getItem('tasks'));
-  }
+  tasks = check_if_tasks_exist();
 
   // Add task to local storage
   tasks.push(task);
@@ -98,27 +94,16 @@ function remove_task(event) {
     if(confirm("Are you sure?")){
       let delLiTask = event.target.parentElement;
       TASKLIST.removeChild(delLiTask);
+      console.log("remove_task " + delLiTask);
 
       // Remove from Local Storage
-      // localStorage.clear();
       remove_task_from_local_storage(delLiTask);
     }
   }
 }
 
 function remove_task_from_local_storage(taskItem){
-  console.log(taskItem);
-  // localStorage.removeItem('tasks');
-  let tasks;
-  // Check if tasks are already stored
-  if(localStorage.getItem('tasks') === null){
-    tasks = [];
-  }
-  else{
-    // Add task to array
-    tasks = JSON.parse(localStorage.getItem('tasks'));
-    console.log("else ");
-  }
+  tasks = check_if_tasks_exist();
 
   tasks.forEach(function(task, index){
     console.log("forEach task " + task);
