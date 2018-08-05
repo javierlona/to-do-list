@@ -8,7 +8,6 @@ FORM.addEventListener('submit', add_task);
 TASKLIST.addEventListener('click', remove_task);
 FILTER.addEventListener('keyup', filter_tasks);
 
-
 function get_existing_tasks(){
   let tasks;
   // Check if tasks are already stored
@@ -21,10 +20,11 @@ function get_existing_tasks(){
   }
   return tasks;
 }
-console.log("outside get_tasks()");
-function get_tasks() {
+
+// domcontentloaded event not firing, hence an IIFE function
+document.addEventListener('DOMContentLoaded', function () {
+  // Fires each time page is refreshed
   tasks = get_existing_tasks();
-  console.log("Inside get_tasks()");
   // Loop to create the DOM elements to display
   tasks.forEach(function(task) {
     // Get input value
@@ -43,9 +43,8 @@ function get_tasks() {
     TASKLIST.append(liElement);
     liElement.append(newTask);
     liElement.append(deleteBTN);
-
-  });
-}
+  })
+}());
 
 function add_task(event){
   event.preventDefault();
@@ -129,41 +128,4 @@ function filter_tasks(event) {
       tasksArray[i].style.display = 'none';
     }
   }
-}
-if (document.readyState === "complete" || document.readyState === "loaded") {
-  
-  console.log("code ran already");
-}else{
-  console.log("code not run already");
-  document.addEventListener('DOMContentLoaded', get_tasks, false); // Called right after DOM is loaded
-}
-
-if( document.readyState === 'complete' ) {
-  console.log( 'document is already ready, just execute code here' );
-  // myInitCode();
-} else {
-  document.addEventListener('DOMContentLoaded', (function () {
-      console.log( 'document was not ready, place code here' );
-      tasks = get_existing_tasks();
-      console.log("Inside get_tasks()");
-      // Loop to create the DOM elements to display
-      tasks.forEach(function(task) {
-        // Get input value
-        let newTask = document.createTextNode(task);
-        // Create new li element
-        let liElement = document.createElement('li');
-        // Create delete button element
-        let deleteBTN = document.createElement('button');
-    
-        //  Add classes
-        liElement.className = 'list-group-item';
-        deleteBTN.className = 'btn btn-danger btn-lg float-right delete';
-        deleteBTN.innerHTML = '<i class="fas fa-trash-alt"></i>';
-    
-        // Add to DOM Tree from outside in
-        TASKLIST.append(liElement);
-        liElement.append(newTask);
-        liElement.append(deleteBTN);
-    });
-  }()))
 }
