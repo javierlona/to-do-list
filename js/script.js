@@ -4,9 +4,9 @@ const TASKLIST = document.querySelector('.list-group');
 const FILTER = document.querySelector('#filter');
 
 // Event listeners
-FORM.addEventListener('submit', add_task);
-TASKLIST.addEventListener('click', remove_task);
-FILTER.addEventListener('keyup', filter_tasks);
+FORM.addEventListener('submit', add_task, false);
+TASKLIST.addEventListener('click', remove_task, false);
+FILTER.addEventListener('keyup', filter_tasks, false);
 
 function get_existing_tasks(){
   let tasks;
