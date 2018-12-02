@@ -1,5 +1,5 @@
 # to-do-list
-[Live Demo Here](http://onegreatapp.com/to-do-list/)
+[Live Demo Here](http://apps.javierlona.com/to-do-list/)
 
 ![Demo Image](imgs/to-do-list-demo.jpg)
 
